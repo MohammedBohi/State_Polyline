@@ -16,11 +16,45 @@ let polyline // La polyline en cours de construction;
 
 const polylineMachine = createMachine(
     {
-        /** @xstate-layout N4IgpgJg5mDOIC5gF8A0IB2B7CdGgAcsAbATwBkBLDMfEI2SgF0qwzoA9EBaANnVI9eAOgAM4iZMkB2ZGnokK1MMMoRitJAsYs2nRABYATAMQAOAIzCD0gJwXetgwGZezgw9ty5QA */
+        /** @xstate-layout N4IgpgJg5mDOIC5QAcD2AbAngGQJYDswA6XCdMAYgFkB5AVQGUBRAYWwEkWBpAbQAYAuohSpYuAC65U+YSAAeiAMwBOIgDY+mgCxa1WxQA4A7AcV81AGhCZEAWgCMfLUS1G+BvsqMBWJ2vtG9gC+QVZoWHiERAAiAE4AhgDuBFDU9My0AGpM-EJIIGhiktKyCgiKAEx8Lpr2lZUVZspa3lY2CLYVRs4GVUZuRhUeui0hYRg4BMRxSSkUTLAAxvHIYLmyhRJSMvllFd7Omnx1zfbeFWpVBm2IFUSKRspVaqbufN72Ld5jBROR0wlkvhUgAheKLADWsGQ4LWgg2oi2JV2SgMqmOXUUhmUn3saks1kQ9i6RG8jwqrheXgMBnOP3CkyiMyBqVojCYWRy9jyIiK21KdheRH25n67nsvScRhuHS6aiIfEUI283jUOPxynpfymMUBcyY+HEYFi63ym2KO1AZXsdSIdTUgT4jxOyldMrqRiItIMxK0rwqFNpWoiOuZczZzDYnF48LNiItAoQKvlFMUHsV9mUam8ihlDnOwrUWJMGo8-i0IVCIHwqAgcARIcICL5yKtdk+BnurqzxNVyh9OjziiL9yVRb93SqFWCVYZ-xIZDAzaRlvk7c0Xdd-n2aoHWjzNKITydOK0irPgzUwcZANmwOXCZRCH2dzPxweBmzBzqFTzGjtfRPN4ygqrUqqVkEQA */
         id: "polyLine",
         initial: "idle",
         states : {
             idle: {
+                on: {
+                    MOUSECLICK: {
+                        target: "Drawing",
+                        actions: ["createLine"]
+                    }
+                }
+            },
+
+            Drawing: {
+                on: {
+                    Escape: {
+                        target: "idle",
+                        actions: "abandon"
+                    },
+
+                    Backspace: {
+                        target: "Drawing",
+                        internal: true,
+                        actions: "removeLastPoint",
+                        cond: "plusDeDeuxPoints"
+                    },
+
+                    Enter: {
+                        target: "idle",
+                        actions: "saveLine",
+                        cond: "plusDeDeuxPoints"
+                    },
+
+                    MOUSECLICK: {
+                        target: "Drawing",
+                        internal: true,
+                        actions: "addPoint"
+                    }
+                }
             }
         }
     },
