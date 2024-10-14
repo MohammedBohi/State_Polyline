@@ -66,7 +66,8 @@ const polylineMachine = createMachine(
             },
             // Abandonner le tracé de la polyline
             abandon: (context, event) => {
-                polyline.remove();
+                // Supprimer la variable polyline :
+                
             },
             // Supprimer le dernier point de la polyline
             removeLastPoint: (context, event) => {
