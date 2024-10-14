@@ -82,7 +82,9 @@ const polylineMachine = createMachine(
         guards: {
             // On peut encore ajouter un point
             pasPlein: (context, event) => {
-                return polyline.points().length < MAX_POINTS * 2;
+                // Retourner vrai si la polyline a moins de 10 points
+                // attention : dans le tableau de points, chaque point est représenté par 2 valeurs (coordonnées x et y)
+                
             },
             // On peut enlever un point
             plusDeDeuxPoints: (context, event) => {
